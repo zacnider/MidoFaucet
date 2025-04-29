@@ -3,436 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MIDO Token Faucet</title>
+    <title>MIDO Token Faucet - Secure Testnet Tokens</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #6c63ff;
-            --secondary-color: #ff6584;
-            --background-color: #f5f7ff;
-            --card-color: #ffffff;
-            --text-color: #333333;
-            --text-light: #666666;
-            --success-color: #4caf50;
-            --error-color: #f44336;
-            --hover-color: #5a52e0;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        .card {
-            background-color: var(--card-color);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 30px;
-            margin-bottom: 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .title {
-            color: var(--primary-color);
-            font-size: 36px;
-            margin-bottom: 10px;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-
-        .amount-selector {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .amount-btn {
-            padding: 10px 20px;
-            background-color: #f0f0f0;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .amount-btn.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .captcha-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .captcha {
-            background-color: #f9f9f9;
-            padding: 15px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 15px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            text-align: center;
-        }
-
-        .stat-item {
-            background-color: #f0f0f0;
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        .result-box {
-            display: none;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .success-message {
-            color: var(--success-color);
-        }
-
-        .error-message {
-            color: var(--error-color);
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <div class="card header">
+        <header>
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="120" height="120">
+                    <circle cx="256" cy="256" r="240" fill="#6c63ff" />
+                    <circle cx="256" cy="256" r="220" fill="#5a52e0" />
+                    <path d="M136 170 L136 342 L176 342 L176 222 L236 302 L296 222 L296 342 L336 342 L336 170 L296 170 L236 250 L176 170 Z" fill="white" />
+                </svg>
+            </div>
             <h1 class="title">MIDO Token Faucet</h1>
-            <p>Get test tokens for the Miden Network</p>
-        </div>
+            <p class="subtitle">Secure Test Tokens for Miden Network</p>
+        </header>
 
         <div class="card">
-            <form id="faucetForm">
-                <div class="input-group">
-                    <input type="text" id="addressInput" placeholder="Your Miden Address" required>
-                </div>
+            <div class="info-box">
+                <h2><i class="fas fa-info-circle"></i> About MIDO Token</h2>
+                <p>MIDO is a test token for the Miden network. Use these tokens to test applications and features on the testnet without using real money. <strong>Choose the amount that suits your testing needs.</strong></p>
+            </div>
 
-                <div class="amount-selector">
-                    <button type="button" class="amount-btn active" data-amount="0.1">0.1 MIDO</button>
-                    <button type="button" class="amount-btn" data-amount="0.5">0.5 MIDO</button>
-                    <button type="button" class="amount-btn" data-amount="1">1 MIDO</button>
-                </div>
-
-                <div class="captcha-container">
-                    <div class="captcha">
-                        <span id="captchaText">ABCDEF</span>
+            <div class="faucet-box">
+                <h2><i class="fas fa-faucet"></i> Request Tokens</h2>
+                <p>Enter your Miden address to receive test tokens:</p>
+                
+                <form id="faucetForm">
+                    <div class="input-group">
+                        <input type="text" id="addressInput" placeholder="Your Miden Address (0x + 40-64 hex chars)" required>
                     </div>
-                    <input type="text" id="captchaInput" placeholder="Enter Captcha" required>
+                    
+                    <div class="amount-selector">
+                        <h3>Select Token Amount:</h3>
+                        <div class="amount-options">
+                            <button type="button" class="amount-btn active" data-amount="0.1">0.1 MIDO</button>
+                            <button type="button" class="amount-btn" data-amount="0.5">0.5 MIDO</button>
+                            <button type="button" class="amount-btn" data-amount="1">1 MIDO</button>
+                        </div>
+                    </div>
+                    
+                    <div class="captcha-container">
+                        <p>Verify you're human:</p>
+                        <div class="captcha">
+                            <span id="captchaText">ABCDEF</span>
+                        </div>
+                        <input type="text" id="captchaInput" placeholder="Enter the text above" required>
+                    </div>
+                    
+                    <button type="submit" class="request-btn" id="requestBtn">
+                        Request Tokens
+                    </button>
+                </form>
+            </div>
+            
+            <div class="result-box" id="resultBox">
+                <div class="success-message" id="successMessage">
+                    <h3>Tokens Sent Successfully!</h3>
+                    <p>MIDO tokens have been transferred to your address.</p>
+                    <div class="transaction-details">
+                        <p>Transaction ID: <span id="txId">---</span></p>
+                        <p>Amount: <span id="txAmount">---</span> MIDO</p>
+                    </div>
                 </div>
-
-                <button type="submit" class="submit-btn">Request Tokens</button>
-            </form>
-
-            <div id="resultBox" class="result-box">
-                <div id="successMessage" class="success-message">
-                    <h3>Success!</h3>
-                    <p>Tokens sent to your address</p>
-                    <p>Transaction ID: <span id="txId"></span></p>
-                </div>
-                <div id="errorMessage" class="error-message">
-                    <h3>Error</h3>
-                    <p id="errorText"></p>
+                
+                <div class="error-message" id="errorMessage">
+                    <h3>Request Failed</h3>
+                    <p id="errorText">Error details will appear here.</p>
                 </div>
             </div>
         </div>
-
+        
         <div class="card">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <h4>Faucet Balance</h4>
-                    <p id="faucetBalance">10,000,000</p>
-                </div>
-                <div class="stat-item">
-                    <h4>Users Served</h4>
-                    <p id="usersServed">20</p>
-                </div>
-                <div class="stat-item">
-                    <h4>Tokens Distributed</h4>
-                    <p id="tokensDistributed">0</p>
+            <div class="faucet-stats">
+                <h2>Faucet Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h3>Faucet Balance</h3>
+                        <p id="faucetBalance">10,000</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>Users Served</h3>
+                        <p id="usersServed">0</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>Tokens Distributed</h3>
+                        <p id="tokensDistributed">0</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>Daily Limit</h3>
+                        <p id="dailyLimit">1,000</p>
+                    </div>
                 </div>
             </div>
         </div>
+        
+        <footer>
+            <div class="footer-content">
+                <p>© 2025 MIDO Token Faucet. Powered by Polygon Miden.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <a href="#" class="direct-link">Miden Network</a>
+                <a href="#">About</a>
+                <a href="#">Docs</a>
+                <a href="#">Contact</a>
+            </div>
+        </footer>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            class EnhancedFaucetStats {
-                constructor() {
-                    this.STATS_STORAGE_KEY = 'MIDEN_FAUCET_ENHANCED_STATS';
-                    this.INITIAL_FAUCET_BALANCE = 10000000;
-                    this.INITIAL_USERS_SERVED = 20;
-                    this.HOURLY_USERS_MIN = 30;
-                    this.HOURLY_USERS_MAX = 50;
-                    this.HOURLY_TOKENS_MIN = 100;
-                    this.HOURLY_TOKENS_MAX = 300;
-                    this.MAX_FAUCET_BALANCE = 15000000;
-                }
-
-                _secureRandom(min, max) {
-                    const crypto = window.crypto || window.msCrypto;
-                    const randomBuffer = new Uint32Array(1);
-                    crypto.getRandomValues(randomBuffer);
-                    
-                    const randomNumber = randomBuffer[0] / (0xFFFFFFFF + 1);
-                    return Math.floor(randomNumber * (max - min + 1)) + min;
-                }
-
-                _initializeStats() {
-                    const storedStats = this._loadStats();
-                    const now = Date.now();
-                    const lastUpdated = storedStats.lastUpdated || now;
-                    const hoursSinceLastUpdate = Math.floor((now - lastUpdated) / (1000 * 60 * 60));
-                    
-                    const usersIncrease = this._secureRandom(
-                        this.HOURLY_USERS_MIN * hoursSinceLastUpdate, 
-                        this.HOURLY_USERS_MAX * hoursSinceLastUpdate
-                    );
-                    
-                    const tokensIncrease = this._secureRandom(
-                        this.HOURLY_TOKENS_MIN * hoursSinceLastUpdate, 
-                        this.HOURLY_TOKENS_MAX * hoursSinceLastUpdate
-                    );
-                    
-                    const updatedStats = {
-                        usersServed: Math.max(this.INITIAL_USERS_SERVED, storedStats.usersServed + usersIncrease),
-                        tokensDistributed: storedStats.tokensDistributed + tokensIncrease,
-                        faucetBalance: Math.max(0, Math.min(
-                            this.MAX_FAUCET_BALANCE, 
-                            storedStats.faucetBalance - tokensIncrease
-                        )),
-                        lastUpdated: now
-                    };
-                    
-                    this._saveStats(updatedStats);
-                    this._updateDOMElements(updatedStats);
-                    
-                    return updatedStats;
-                }
-
-                _loadStats() {
-                    try {
-                        const storedStats = localStorage.getItem(this.STATS_STORAGE_KEY);
-                        
-                        if (storedStats) {
-                            return JSON.parse(storedStats);
-                        }
-                        
-                        return {
-                            usersServed: this.INITIAL_USERS_SERVED,
-                            tokensDistributed: 0,
-                            faucetBalance: this.INITIAL_FAUCET_BALANCE,
-                            lastUpdated: Date.now()
-                        };
-                    } catch (error) {
-                        console.error('Stats load error:', error);
-                        return {
-                            usersServed: this.INITIAL_USERS_SERVED,
-                            tokensDistributed: 0,
-                            faucetBalance: this.INITIAL_FAUCET_BALANCE,
-                            lastUpdated: Date.now()
-                        };
-                    }
-                }
-
-                _saveStats(stats) {
-                    try {
-                        localStorage.setItem(this.STATS_STORAGE_KEY, JSON.stringify(stats));
-                    } catch (error) {
-                        console.error('Stats save error:', error);
-                    }
-                }
-
-                _updateDOMElements(stats) {
-                    document.getElementById('usersServed').textContent = 
-                        stats.usersServed.toLocaleString();
-                    
-                    document.getElementById('tokensDistributed').textContent = 
-                        stats.tokensDistributed.toLocaleString();
-                    
-                    document.getElementById('faucetBalance').textContent = 
-                        stats.faucetBalance.toLocaleString();
-                }
-
-                canDistributeTokens(requestedAmount) {
-                    const currentStats = this._loadStats();
-                    return currentStats.faucetBalance >= requestedAmount;
-                }
-
-                simulateTokenDistribution(amount) {
-                    const currentStats = this._loadStats();
-                    
-                    const updatedStats = {
-                        usersServed: currentStats.usersServed + 1,
-                        tokensDistributed: currentStats.tokensDistributed + amount,
-                        faucetBalance: currentStats.faucetBalance - amount,
-                        lastUpdated: Date.now()
-                    };
-                    
-                    this._saveStats(updatedStats);
-                    this._updateDOMElements(updatedStats);
-                    
-                    return updatedStats;
-                }
-
-                setupPeriodicUpdate() {
-                    setInterval(() => {
-                        this._initializeStats();
-                    }, 60 * 60 * 1000);
-                }
-
-                initialize() {
-                    this._initializeStats();
-                    this.setupPeriodicUpdate();
-                }
-            }
-
-            function generateSecureCaptcha() {
-                const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
-                const crypto = window.crypto || window.msCrypto;
-                const randomBytes = crypto.getRandomValues(new Uint8Array(6));
-                
-                let captcha = '';
-                for (let i = 0; i < 6; i++) {
-                    captcha += chars.charAt(randomBytes[i] % chars.length);
-                }
-                
-                document.getElementById('captchaText').textContent = captcha;
-                document.getElementById('captchaInput').value = '';
-            }
-
-            function validateMidenAddress(address) {
-                const midenAddressRegex = /^0x[a-fA-F0-9]{40,64}$/;
-                return midenAddressRegex.test(address);
-            }
-
-            function generateSecureTxId() {
-                const crypto = window.crypto || window.msCrypto;
-                const randomBytes = crypto.getRandomValues(new Uint8Array(16));
-                return '0x' + Array.from(randomBytes)
-                    .map(b => b.toString(16).padStart(2, '0'))
-                    .join('');
-            }
-
-            function showMessage(type, message) {
-                const resultBox = document.getElementById('resultBox');
-                const successMessage = document.getElementById('successMessage');
-                const errorMessage = document.getElementById('errorMessage');
-                
-                if (type === 'success') {
-                    successMessage.style.display = 'block';
-                    errorMessage.style.display = 'none';
-                } else {
-                    successMessage.style.display = 'none';
-                    errorMessage.style.display = 'block';
-                    document.getElementById('errorText').textContent = message;
-                }
-                
-                resultBox.style.display = 'block';
-            }
-
-            const faucetStats = new EnhancedFaucetStats();
-            faucetStats.initialize();
-
-            document.getElementById('faucetForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const addressInput = document.getElementById('addressInput');
-                const captchaInput = document.getElementById('captchaInput');
-                
-                const address = addressInput.value.trim();
-                const captchaValue = captchaInput.value.trim();
-                const captchaText = document.getElementById('captchaText').textContent;
-                
-                if (!validateMidenAddress(address)) {
-                    showMessage('error', 'Invalid Miden address format.');
-                    return;
-                }
-                
-                if (captchaValue.toUpperCase() !== captchaText.toUpperCase()) {
-                    showMessage('error', 'Captcha verification failed.');
-                    generateSecureCaptcha();
-                    return;
-                }
-                
-                const selectedAmount = parseFloat(
-                    document.querySelector('.amount-btn.active').getAttribute('data-amount')
-                );
-                
-                if (!faucetStats.canDistributeTokens(selectedAmount)) {
-                    showMessage('error', 'Insufficient faucet balance.');
-                    return;
-                }
-                
-                faucetStats.simulateTokenDistribution(selectedAmount);
-                
-                const txId = generateSecureTxId();
-                document.getElementById('txId').textContent = txId;
-                
-                showMessage('success');
-                generateSecureCaptcha();
-                
-                addressInput.value = '';
-                captchaInput.value = '';
-            });
-
-            const amountButtons = document.querySelectorAll('.amount-btn');
-            amountButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    amountButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-
-            generateSecureCaptcha();
-        });
-    </script>
+    
+    <script src="script.js"></script>
 </body>
 </html>
